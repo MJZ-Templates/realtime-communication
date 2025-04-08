@@ -1,4 +1,4 @@
-package arkain.dev.communication.chat.app.service.message;
+package arkain.dev.communication.chat.app.service.messageHandler;
 
 import arkain.dev.communication.chat.app.ChatMessageHandler;
 import arkain.dev.communication.chat.app.dto.ChatMessageDto;
@@ -25,6 +25,6 @@ public class ChatMessageHandlerService {
         return handlers.stream()
                 .filter(h -> h.supports(type))
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("No handler found for type " + type));
+                .orElseThrow(() -> new IllegalArgumentException("No handler found for type " + type));
     }
 }

@@ -35,4 +35,8 @@ public class ChatMessage extends BaseTimeEntity {
         chatMessage.type = MessageType.valueOf(type);
         return chatMessage;
     }
+
+    public void solveProblem() {
+        this.solved = true;
+    }
 }

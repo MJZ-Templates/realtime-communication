@@ -8,15 +8,22 @@ import arkain.dev.communication.chat.dao.entity.ChatMessage;
 import arkain.dev.communication.chat.dao.entity.ChatRoom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ChatMessageService {
 
     private final ChatMessageRepository chatMessageRepository;
     private final ChatRoomService chatRoomService;
+
+    public ChatMessage findChatMessage(Long id) {
+        return chatMessageRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Chat message not found"));
+    }
 
     public ChatResponseMessage saveChatMessage(String enterCode, ChatMessageDto dto) {
         ChatRoom chatRoom = chatRoomService.getChatRoom(enterCode);
@@ -55,5 +62,17 @@ public class ChatMessageService {
                 chatRoom.getId(),
                 chatRoom.getName(),
                 messages);
+    }
+
+    public ChatResponseMessage solveProblem(ChatMessageDto message) {
+        ChatMessage chatMessage = findChatMessage(message.id());
+        chatMessage.solveProblem();
+        return new ChatResponseMessage(
+                chatMessage.getId(),
+                chatMessage.getSender(),
+                chatMessage.getContent(),
+                chatMessage.getType().toString(),
+                chatMessage.getCreatedAt()
+        );
     }
 }

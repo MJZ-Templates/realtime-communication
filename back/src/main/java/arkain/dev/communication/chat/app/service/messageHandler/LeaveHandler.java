@@ -1,4 +1,4 @@
-package arkain.dev.communication.chat.app.service.message;
+package arkain.dev.communication.chat.app.service.messageHandler;
 
 import arkain.dev.communication.chat.app.service.ChatMessageService;
 import arkain.dev.communication.chat.app.service.ChatRoomService;
@@ -6,26 +6,27 @@ import arkain.dev.communication.chat.dao.entity.MessageType;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JoinHandler extends AbstractSystemMessageHandler {
+public class LeaveHandler extends AbstractSystemMessageHandler {
 
-    private final static String JOIN_MESSAGE_SUFFIX = " has joined the room";
+    private final static String LEAVE_MESSAGE_SUFFIX = " has leaved the room";
 
-    public JoinHandler(ChatRoomService chatRoomService, ChatMessageService chatMessageService) {
+    public LeaveHandler(ChatRoomService chatRoomService, ChatMessageService chatMessageService) {
         super(chatRoomService, chatMessageService);
     }
 
     @Override
     public boolean supports(MessageType type) {
-        return MessageType.JOIN == type;
+        return MessageType.LEAVE == type;
     }
+
 
     @Override
     protected String getSuffixMessage() {
-        return JOIN_MESSAGE_SUFFIX;
+        return LEAVE_MESSAGE_SUFFIX;
     }
 
     @Override
     protected MessageType getMessageType() {
-        return MessageType.JOIN;
+        return MessageType.LEAVE;
     }
 }
