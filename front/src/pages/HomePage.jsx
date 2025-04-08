@@ -31,8 +31,6 @@ const Home = () => {
 
   const handleEnterRoom = async (e) => {
     if (e.key === 'Enter' && roomName.trim()) {
-      if (roomName.startsWith('http')) {
-      }
       await validateAndJoinRoom({
         name: roomName.trim(),
         onError: showToast,

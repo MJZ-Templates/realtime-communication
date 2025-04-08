@@ -16,11 +16,11 @@ export const useChatRoomActions = () => {
     }
   };
 
-  const validateAndJoinRoom = async ({ name, onError }) => {
+  const validateAndJoinRoom = async ({ roomId, onError }) => {
     try {
-      const { isExists } = await validateRoomId(name);
+      const { isExists } = await validateRoomId(roomId);
       if (isExists) {
-        openRoom(name);
+        openRoom(roomId);
       } else {
         onError?.('The room does not exist.');
       }
