@@ -16,6 +16,7 @@ public class ChatMessageHandlerService {
     private final List<ChatMessageHandler> handlers;
 
     public ChatResponseMessage handleMessage(String roomId, ChatMessageDto message) {
+
         ChatMessageHandler handler = getHandler(MessageType.valueOf(message.type()));
         return handler.handleMessage(roomId, message);
     }

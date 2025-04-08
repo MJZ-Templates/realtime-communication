@@ -1,0 +1,70 @@
+.
+├── HELP.md
+├── build.gradle
+├── gradle
+│   └── wrapper
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+├── gradlew
+├── gradlew.bat
+├── settings.gradle
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── arkain
+    │   │       └── dev
+    │   │           └── communication
+    │   │               ├── CommunicationApplication.java
+    │   │               ├── chat
+    │   │               │   ├── app
+    │   │               │   │   ├── ChatMessageHandler.java
+    │   │               │   │   ├── dto
+    │   │               │   │   │   ├── ChatMessageDto.java
+    │   │               │   │   │   ├── ChatRequestMessage.java
+    │   │               │   │   │   ├── ChatResponseMessage.java
+    │   │               │   │   │   ├── ChatRoomResponseDto.java
+    │   │               │   │   │   ├── ChatRoomValidateDto.java
+    │   │               │   │   │   └── RoomIdResponseDto.java
+    │   │               │   │   └── service
+    │   │               │   │       ├── ChatMessageService.java
+    │   │               │   │       ├── ChatRoomService.java
+    │   │               │   │       └── message
+    │   │               │   │           ├── AbstractSystemMessageHandler.java
+    │   │               │   │           ├── ChatHandler.java
+    │   │               │   │           ├── ChatMessageHandlerService.java
+    │   │               │   │           ├── JoinHandler.java
+    │   │               │   │           └── LeaveHandler.java
+    │   │               │   ├── dao
+    │   │               │   │   ├── ChatMessageRepository.java
+    │   │               │   │   ├── ChatRoomRepository.java
+    │   │               │   │   └── entity
+    │   │               │   │       ├── ChatMessage.java
+    │   │               │   │       ├── ChatRoom.java
+    │   │               │   │       └── MessageType.java
+    │   │               │   └── ui
+    │   │               │       ├── message
+    │   │               │       │   └── ChatController.java
+    │   │               │       └── web
+    │   │               │           ├── ChatMessageController.java
+    │   │               │           ├── ChatMessageQueryController.java
+    │   │               │           ├── ChatRoomCreateController.java
+    │   │               │           └── ChatRoomValidateController.java
+    │   │               ├── common
+    │   │               │   └── dao
+    │   │               │       └── BaseTimeEntity.java
+    │   │               └── config
+    │   │                   ├── AuditConfig.java
+    │   │                   ├── CorsConfig.java
+    │   │                   └── WebSocketConfig.java
+    │   └── resources
+    │       ├── application.properties
+    │       ├── static
+    │       └── templates
+    └── test
+        └── java
+            └── arkain
+                └── dev
+                    └── communication
+                        └── CommunicationApplicationTests.java
+
+30 directories, 38 files

@@ -1,0 +1,49 @@
+# Java
+*.class
+*.log
+*.ctxt
+*.jar
+*.war
+*.ear
+
+# Build output
+/build/
+out/
+bin/
+
+# Gradle
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle-wrapper.properties
+build/
+**/build/
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.*
+*.local
+*.secret
+*.bak
+
+# Test reports
+/test-output/
+/coverage/
+/jacoco.exec
+
+# Logs
+logs/
+*.log
+*.log.*
+
