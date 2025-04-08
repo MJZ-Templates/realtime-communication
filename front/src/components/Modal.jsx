@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Input from './Input';
 
 const Modal = ({
@@ -8,41 +8,32 @@ const Modal = ({
   ButtonText,
   onClick,
   onClose,
-  value,
-  setValue,
+  value: initialValue,
 }) => {
   const modalRef = useRef(null);
   const focusRef = useRef(null);
-
-  const handleClickOutside = useCallback(
-    (e) => {
-      if (modalRef.current && !modalRef.current.contains(e.target)) {
-        onClose();
-      }
-    },
-    [onClose],
-  );
-
-  const handleKeyDown = useCallback(
-    (e) => {
-      if (e.key === 'Enter' && typeof value === 'string' && value.trim()) {
-        onClick(value);
-        onClose();
-      }
-    },
-    [onClick, onClose, value],
-  );
+  const [inputValue, setInputValue] = useState(initialValue ?? '');
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleKeyDown);
     focusRef.current?.focus();
+  }, []);
 
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [handleClickOutside, handleKeyDown]);
+  useEffect(() => {
+    setInputValue(initialValue ?? '');
+  }, [initialValue]);
+
+  const handleConfirm = () => {
+    if (inputValue.trim()) {
+      onClick(inputValue.trim());
+      onClose();
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleConfirm();
+    }
+  };
 
   return (
     <Backdrop>
@@ -50,18 +41,13 @@ const Modal = ({
         <h3>{ModalText}</h3>
         <Input
           ref={focusRef}
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder={placeholder}
         />
         <ButtonRow>
-          <ModalButton
-            onClick={() => {
-              onClick(value);
-            }}
-          >
-            {ButtonText}
-          </ModalButton>
+          <ModalButton onClick={handleConfirm}>{ButtonText}</ModalButton>
           <ModalButton onClick={onClose}>Cancel</ModalButton>
         </ButtonRow>
       </ModalBox>

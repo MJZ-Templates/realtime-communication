@@ -13,17 +13,15 @@ const Home = () => {
   const { toastMessage, showToast } = useToast();
   const { createRoom, validateAndJoinRoom } = useChatRoomActions();
 
-  const handleCreate = async () => {
-    const trimmedName = newRoomName.trim();
+  const handleCreate = async (name) => {
+    const trimmedName = name.trim();
     if (!trimmedName) return;
 
     await createRoom({
       name: trimmedName,
-      onSuccess: () => setShowModal(false),
+      onSuccess: handleClose,
       onError: showToast,
     });
-
-    handleClose();
   };
 
   const handleClose = () => {

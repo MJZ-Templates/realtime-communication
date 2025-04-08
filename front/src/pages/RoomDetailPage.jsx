@@ -13,7 +13,7 @@ import useRoomUIStore from '../hooks/useRoomUI';
 
 const Room = () => {
   const { roomId } = useParams();
-  const [username, setUsername] = useLocalStorage('username', '');
+  const [username, setUsername] = useLocalStorage(`username-${roomId}`, '');
   const {
     question,
     showModal,
@@ -35,11 +35,13 @@ const Room = () => {
 
   const currentUrl = useMemo(() => window.location.href, []);
   const isComposing = useRef(false);
+  const didMount = useRef(false);
+  const focusRef = useRef(null);
 
   const handleCreate = (newUsername) => {
     setUsername(newUsername);
-    hideModalBox();
     sendJoinMessage(newUsername);
+    hideModalBox();
   };
 
   const handleSubmit = () => {
@@ -50,8 +52,15 @@ const Room = () => {
   };
 
   useEffect(() => {
-    if (!username) {
-      showModalBox();
+    focusRef.current?.focus();
+  });
+
+  useEffect(() => {
+    if (!didMount.current) {
+      if (!username) {
+        showModalBox();
+      }
+      didMount.current = true;
     }
   }, [username, showModalBox]);
 
@@ -62,10 +71,7 @@ const Room = () => {
   const handleCopy = () => {
     navigator.clipboard.writeText(currentUrl);
     showToast();
-
-    setTimeout(() => {
-      hideToast();
-    }, 2000);
+    setTimeout(hideToast, 2000);
   };
 
   const renderMessage = useCallback((msg, index) => {
@@ -74,7 +80,6 @@ const Room = () => {
         <SystemMessage key={msg.id ?? `msg-${index}`} content={msg.content} />
       );
     }
-
     return (
       <MessageItem
         key={msg.id ?? `msg-${index}`}
@@ -98,6 +103,7 @@ const Room = () => {
       />
 
       <QuestionInputBox
+        ref={focusRef}
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
         onKeyDown={(e) => {
@@ -114,7 +120,9 @@ const Room = () => {
       />
 
       <MessageList>{renderedMessages}</MessageList>
+
       {copied && <Toast message="URL Copied!" />}
+
       {!username && showModal && (
         <Modal
           ModalText="Enter your name to join the room"
@@ -132,6 +140,7 @@ const Room = () => {
 
 export default Room;
 
+// 스타일은 그대로 유지
 const Wrapper = styled.div`
   padding: 40px 24px;
   min-height: 100vh;
