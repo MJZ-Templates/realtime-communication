@@ -30,6 +30,7 @@ const Room = () => {
     roomName,
     sendChatMessage,
     sendJoinMessage,
+    sendLeaveMessage,
     fetchInitialMessages,
   } = useChatMessage({ roomId, username });
 
@@ -39,6 +40,7 @@ const Room = () => {
   const focusRef = useRef(null);
 
   const handleCreate = (newUsername) => {
+    console.log('newUsername', newUsername);
     setUsername(newUsername);
     sendJoinMessage(newUsername);
     hideModalBox();
@@ -52,10 +54,12 @@ const Room = () => {
   };
 
   useEffect(() => {
+    // focus on input when the component mounts
     focusRef.current?.focus();
   });
 
   useEffect(() => {
+    // Show modal if username is not set
     if (!didMount.current) {
       if (!username) {
         showModalBox();
@@ -65,8 +69,20 @@ const Room = () => {
   }, [username, showModalBox]);
 
   useEffect(() => {
+    // Fetch initial messages when the component mounts
     fetchInitialMessages();
   }, [fetchInitialMessages]);
+
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      sendLeaveMessage(username);
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [sendLeaveMessage, username]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(currentUrl);

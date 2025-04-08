@@ -26,7 +26,7 @@ const useChatMessage = ({ roomId, username }) => {
     sendMessage(msg);
   };
 
-  const sendJoinMessage = () => {
+  const sendJoinMessage = (username) => {
     const msg = {
       roomId,
       sender: username,
@@ -36,6 +36,20 @@ const useChatMessage = ({ roomId, username }) => {
     };
     sendMessage(msg);
   };
+
+  const sendLeaveMessage = useCallback(
+    (username) => {
+      const msg = {
+        roomId,
+        sender: username,
+        content: `${username} has left the room.`,
+        type: 'LEAVE',
+        sendAt: new Date(),
+      };
+      sendMessage(msg);
+    },
+    [roomId, sendMessage],
+  );
 
   const fetchInitialMessages = useCallback(async () => {
     const data = await getChatMessages(roomId);
@@ -48,6 +62,7 @@ const useChatMessage = ({ roomId, username }) => {
     roomName,
     sendChatMessage,
     sendJoinMessage,
+    sendLeaveMessage,
     fetchInitialMessages,
   };
 };
