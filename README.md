@@ -6,6 +6,26 @@
 * 🔗 Easy room sharing – Create a room and share the unique link or join using a room number
 * ⚡ Streamlined architecture – Clean separation of domain, service, and controller layers for rapid development
 
+## 💻 Installation & Setup
+1. Check URL and Port
+   1. Move your mouse pointer over the [Preview] → [Running URL and Port] button in the menu bar and click the button.
+   2. Check running domains with 3000 port for frontend and 8080 port for backend.
+
+2. Environment variables and config settings
+   1. Paste the front domain (which uses port 3000) into the front/.env file.
+
+3. Check dependencies
+   1. front end dependency
+      1. move to front directory (`cd front`)
+      2. use `npm install` to install dependencies
+   2. back end dependency
+      1. move to back directory (`cd back`)
+      2. use `./gradlew classes` to install dependencies
+
+4. Run Project
+   1. Click [`Run QnA`] in the menu bar
+   2. Alternatively, run `pm2 start ecosystem.config.js` in the terminal directly
+
 ## 📂 Project Structure
 front
 ```
