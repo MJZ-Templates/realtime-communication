@@ -33,6 +33,7 @@ public abstract class AbstractSystemMessageHandler implements ChatMessageHandler
                 SYSTEM_MESSAGE,
                 message.sender() + getSuffixMessage(),
                 getMessageType().toString(),
+                null,
                 systemMessage.getCreatedAt()
         );
     }

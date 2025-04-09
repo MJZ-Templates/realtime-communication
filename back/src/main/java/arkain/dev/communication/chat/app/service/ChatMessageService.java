@@ -6,6 +6,7 @@ import arkain.dev.communication.chat.app.dto.ChatRoomResponseDto;
 import arkain.dev.communication.chat.dao.ChatMessageRepository;
 import arkain.dev.communication.chat.dao.entity.ChatMessage;
 import arkain.dev.communication.chat.dao.entity.ChatRoom;
+import arkain.dev.communication.chat.dao.entity.MessageType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +39,7 @@ public class ChatMessageService {
                 chatMessage.getSender(),
                 chatMessage.getContent(),
                 chatMessage.getType().toString(),
+                chatMessage.isSolved(),
                 chatMessage.getCreatedAt()
         );
     }
@@ -55,6 +57,7 @@ public class ChatMessageService {
                         message.getSender(),
                         message.getContent(),
                         message.getType().toString(),
+                        message.isSolved(),
                         message.getCreatedAt()))
                 .toList();
 
@@ -71,7 +74,8 @@ public class ChatMessageService {
                 chatMessage.getId(),
                 chatMessage.getSender(),
                 chatMessage.getContent(),
-                chatMessage.getType().toString(),
+                MessageType.SOLVE.toString(),
+                chatMessage.isSolved(),
                 chatMessage.getCreatedAt()
         );
     }

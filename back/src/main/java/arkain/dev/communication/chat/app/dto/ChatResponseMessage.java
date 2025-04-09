@@ -7,6 +7,7 @@ public record ChatResponseMessage(
         String sender,
         String content,
         String type,
+        Boolean solved,
         LocalDateTime sendAt
 ) {
 }

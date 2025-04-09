@@ -14,6 +14,7 @@ import useRoomUIStore from '../hooks/useRoomUI';
 const Room = () => {
   const { roomId } = useParams();
   const [username, setUsername] = useLocalStorage(`username-${roomId}`, '');
+
   const {
     question,
     showModal,
@@ -30,6 +31,7 @@ const Room = () => {
     roomName,
     sendChatMessage,
     sendJoinMessage,
+    sendSolveMessage,
     sendLeaveMessage,
     fetchInitialMessages,
   } = useChatMessage({ roomId, username });
@@ -38,6 +40,43 @@ const Room = () => {
   const isComposing = useRef(false);
   const didMount = useRef(false);
   const focusRef = useRef(null);
+
+  useEffect(() => {
+    // Focus on input when the component mounts
+    focusRef.current?.focus();
+  });
+
+  useEffect(() => {
+    // Show modal if username is not set
+    console.log(`didMount is ${didMount.current}`);
+    if (!didMount.current) {
+      if (!username) {
+        showModalBox();
+      } else {
+        // Send join message if username is set
+        console.log('sendJoinMessage', username);
+        sendJoinMessage(username);
+      }
+      didMount.current = true;
+    }
+  }, [username, showModalBox, sendJoinMessage]);
+
+  useEffect(() => {
+    // Fetch initial messages when the component mounts
+    fetchInitialMessages();
+  }, [fetchInitialMessages]);
+
+  useEffect(() => {
+    // Disconnect the socket when the component unmounts
+    const handleBeforeUnload = (e) => {
+      sendLeaveMessage(username);
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [sendLeaveMessage, username]);
 
   const handleCreate = (newUsername) => {
     console.log('newUsername', newUsername);
@@ -53,58 +92,34 @@ const Room = () => {
     }
   };
 
-  useEffect(() => {
-    // focus on input when the component mounts
-    focusRef.current?.focus();
-  });
-
-  useEffect(() => {
-    // Show modal if username is not set
-    if (!didMount.current) {
-      if (!username) {
-        showModalBox();
-      }
-      didMount.current = true;
-    }
-  }, [username, showModalBox]);
-
-  useEffect(() => {
-    // Fetch initial messages when the component mounts
-    fetchInitialMessages();
-  }, [fetchInitialMessages]);
-
-  useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      sendLeaveMessage(username);
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, [sendLeaveMessage, username]);
-
   const handleCopy = () => {
     navigator.clipboard.writeText(currentUrl);
     showToast();
     setTimeout(hideToast, 2000);
   };
 
-  const renderMessage = useCallback((msg, index) => {
-    if (msg.type === 'JOIN' || msg.type === 'LEAVE') {
+  const renderMessage = useCallback(
+    (msg, index) => {
+      if (msg.type === 'JOIN' || msg.type === 'LEAVE') {
+        return (
+          <SystemMessage key={msg.id ?? `msg-${index}`} content={msg.content} />
+        );
+      }
+
       return (
-        <SystemMessage key={msg.id ?? `msg-${index}`} content={msg.content} />
+        <MessageItem
+          key={msg.id ?? `msg-${index}`}
+          id={msg.id}
+          sender={msg.sender}
+          sendAt={msg.sendAt}
+          checked={msg.solved ?? false}
+          onCheck={sendSolveMessage}
+          content={msg.content}
+        />
       );
-    }
-    return (
-      <MessageItem
-        key={msg.id ?? `msg-${index}`}
-        sender={msg.sender}
-        sendAt={msg.sendAt}
-        content={msg.content}
-      />
-    );
-  }, []);
+    },
+    [sendSolveMessage],
+  );
 
   const renderedMessages = useMemo(() => {
     return messages.map(renderMessage);

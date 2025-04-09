@@ -2,7 +2,7 @@ package arkain.dev.communication.chat.ui.message;
 
 import arkain.dev.communication.chat.app.dto.ChatMessageDto;
 import arkain.dev.communication.chat.app.dto.ChatResponseMessage;
-import arkain.dev.communication.chat.app.service.messageHandler.ChatMessageHandlerService;
+import arkain.dev.communication.chat.app.service.ChatMessageHandlerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;

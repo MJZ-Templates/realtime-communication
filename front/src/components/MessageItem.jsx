@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
+import MessageCheckBox from './MessageCheckBox';
 
-const MessageItem = ({ sender, sendAt, content }) => {
-  const formattedTime = new Date(sendAt).toLocaleTimeString('ko-KR', {
+const MessageItem = ({ id, sender, sendAt, content, checked, onCheck }) => {
+  const formattedTime = new Date(sendAt).toLocaleTimeString('en-US', {
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
@@ -15,6 +16,7 @@ const MessageItem = ({ sender, sendAt, content }) => {
         <Time>{formattedTime}</Time>
         <Content>{content}</Content>
       </MessageMeta>
+      <MessageCheckBox checked={checked} onChange={() => onCheck(id)} />
     </Wrapper>
   );
 };
@@ -23,7 +25,7 @@ export default MessageItem;
 
 const Wrapper = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   background: white;
   padding: 16px 20px;
   border-radius: 16px;

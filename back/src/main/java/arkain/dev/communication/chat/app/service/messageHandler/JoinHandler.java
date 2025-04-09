@@ -3,8 +3,10 @@ package arkain.dev.communication.chat.app.service.messageHandler;
 import arkain.dev.communication.chat.app.service.ChatMessageService;
 import arkain.dev.communication.chat.app.service.ChatRoomService;
 import arkain.dev.communication.chat.dao.entity.MessageType;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class JoinHandler extends AbstractSystemMessageHandler {
 
@@ -21,6 +23,7 @@ public class JoinHandler extends AbstractSystemMessageHandler {
 
     @Override
     protected String getSuffixMessage() {
+        log.info("JoinHandler: getSuffixMessage");
         return JOIN_MESSAGE_SUFFIX;
     }
 

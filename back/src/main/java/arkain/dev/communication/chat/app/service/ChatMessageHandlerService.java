@@ -1,4 +1,4 @@
-package arkain.dev.communication.chat.app.service.messageHandler;
+package arkain.dev.communication.chat.app.service;
 
 import arkain.dev.communication.chat.app.ChatMessageHandler;
 import arkain.dev.communication.chat.app.dto.ChatMessageDto;

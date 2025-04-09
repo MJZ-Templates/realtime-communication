@@ -1,4 +1,4 @@
-package arkain.dev.communication.common.exception;
+package arkain.dev.communication.common.handler;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
